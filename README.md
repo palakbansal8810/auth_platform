@@ -45,34 +45,39 @@ All methods map to the same internal user using email.
 
 ### 1. Create `.env`
 DATABASE_URL=postgresql://postgres:postgres@db:5432/authdb
-SECRET_KEY=your_secret_key
-GOOGLE_CLIENT_ID=xxx
-GOOGLE_CLIENT_SECRET=xxx
-OKTA_SSO_URL=xxx
-OKTA_ISSUER=xxx
-FRONTEND_URL=http://localhost:3000
-REACT_APP_API_URL=http://localhost:8000
 
-perl
-Copy code
+SECRET_KEY=your_secret_key
+
+GOOGLE_CLIENT_ID=xxx
+
+GOOGLE_CLIENT_SECRET=xxx
+
+OKTA_SSO_URL=xxx
+
+
+OKTA_ISSUER=xxx
+
+FRONTEND_URL=http://localhost:3000
+
+REACT_APP_API_URL=http://localhost:8000
 
 ### 2. Start
 ```bash
 docker compose up --build
+``` 
 Frontend: http://localhost:3000
 Backend: http://localhost:8000/docs
 
-☁️ Deploy to EC2
-
+### 3. Deploy to EC2
+```bash
 git clone https://github.com/palakbansal8810/auth_platform.git
 cd auth_platform
 docker compose up -d --build
-
+```
 
 Nginx handles HTTPS and routing.
 
 🔐 Security Notes
-
 - Secrets are stored in .env (never committed)
 
 - JWT is used for session authentication
