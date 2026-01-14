@@ -8,13 +8,13 @@ from starlette.middleware.sessions import SessionMiddleware
 import os
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Auth Platform API")
+app = FastAPI(title="Auth Platform API",swagger="2.0")
 app.add_middleware(
     SessionMiddleware,
     secret_key=os.getenv("SECRET_KEY", "your-secret-key-change-in-production"),
-    max_age=3600,  # Session expires after 1 hour
+    max_age=3600,  
     same_site="lax",
-    https_only=False  # Set to True in production with HTTPS
+    https_only=False  
 )
 app.add_middleware(
     CORSMiddleware,

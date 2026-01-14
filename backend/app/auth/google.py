@@ -30,7 +30,8 @@ def create_token(user_id: int):
 
 @router.get("/login")
 async def google_login(request: Request):
-    redirect_uri = f"{request.base_url}auth/google/callback"
+    base_url = FRONTEND_URL.rstrip('/')
+    redirect_uri = f"{base_url}/auth/google/callback"
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
 @router.get("/callback")
@@ -43,7 +44,6 @@ async def google_callback(request: Request, db: Session = Depends(get_db)):
         name = userinfo["name"]
         google_id = userinfo["sub"]
 
-        # Find or create user
         user = db.query(User).filter_by(email=email).first()
         if not user:
             user = User(email=email, name=name)

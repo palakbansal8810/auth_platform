@@ -4,29 +4,6 @@ from app.database import Base
 import enum
 from sqlalchemy.orm import relationship
 
-# class AuthProvider(str, enum.Enum):
-#     LOCAL = "local"
-#     GOOGLE = "google"
-#     OKTA = "okta"
-    
-# class ProviderType(str, enum.Enum):
-#     local = "local"
-#     google = "google"
-#     okta = "okta"
-# class User(Base):
-#     __tablename__ = "users"
-    
-#     id = Column(Integer, primary_key=True, index=True)
-#     email = Column(String, unique=True, index=True, nullable=False)
-#     name = Column(String, nullable=True)
-#     provider = Column(Enum(AuthProvider), nullable=False)
-#     provider_id = Column(String, nullable=True)
-#     hashed_password = Column(String, nullable=True)
-#     created_at = Column(DateTime, default=datetime.utcnow)
-#     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-
-
 class ProviderType(str, enum.Enum):
     local = "local"
     google = "google"

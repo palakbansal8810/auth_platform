@@ -78,22 +78,18 @@ def process_saml_response(saml_response: str, db: Session):
             'samlp': 'urn:oasis:names:tc:SAML:2.0:protocol'
         }
         
-        # Try multiple ways to find email
         email = None
         name = None
         
-        # Method 1: Look for email attribute
         email_elem = root.find('.//saml:Attribute[@Name="email"]//saml:AttributeValue', ns)
         if email_elem is not None:
             email = email_elem.text
         
-        # Method 2: Try NameID
         if not email:
             nameid_elem = root.find('.//saml:NameID', ns)
             if nameid_elem is not None:
                 email = nameid_elem.text
         
-        # Method 3: Try Subject NameID
         if not email:
             subject_elem = root.find('.//saml:Subject//saml:NameID', ns)
             if subject_elem is not None:
@@ -114,12 +110,10 @@ def process_saml_response(saml_response: str, db: Session):
                 name = first_elem.text
         
         if not email:
-            # Log the SAML response for debugging
             print("SAML Response XML:")
             print(ET.tostring(root, encoding='unicode'))
             raise HTTPException(status_code=400, detail="Email not found in SAML response")
         
-        # Find or create user
         user = db.query(User).filter(User.email == email).first()
         
         if not user:
@@ -128,7 +122,6 @@ def process_saml_response(saml_response: str, db: Session):
             db.commit()
             db.refresh(user)
 
-        # 2️⃣ Link Okta provider
         provider = db.query(AuthProvider).filter_by(
             user_id=user.id,
             provider="okta",
